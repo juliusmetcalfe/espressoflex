@@ -1,0 +1,25 @@
+From d52bc67149df26eda87d8c6297c68994bb8bc7cf Mon Sep 17 00:00:00 2001
+From: Julius Metcalfe <julius.metcalfe@gmail.com>
+Date: Wed, 16 Jan 2019 16:50:52 +1000
+Subject: [PATCH] armada-3720-espressobin.dts: Updated pcie for QCA9880
+
+Was not detecting previously. Now detects
+---
+ arch/arm64/boot/dts/marvell/armada-3720-espressobin.dts | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/boot/dts/marvell/armada-3720-espressobin.dts b/arch/arm64/boot/dts/marvell/armada-3720-espressobin.dts
+index 3ab25ad40..3e9ba920b 100644
+--- a/arch/arm64/boot/dts/marvell/armada-3720-espressobin.dts
++++ b/arch/arm64/boot/dts/marvell/armada-3720-espressobin.dts
+@@ -46,6 +46,7 @@
+ /* J9 */
+ &pcie0 {
+ 	status = "okay";
++    max-link-speed = <1>;
+ };
+ 
+ /* J6 */
+-- 
+2.11.0
+
