@@ -90,6 +90,15 @@ if [ ! -d ./A3700-utils ]; then
     )
 fi
 A3700UTILS_DIR=$(pwd)/A3700-utils
+
+if [ ! -d ./linux-firmware ]; then
+    echo "Pulling linux-firmware..."
+    (
+        git clone git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git --depth=1 
+    )   
+fi
+LINUXFIRMWARE_DIR=$(pwd)/linux-firmware
+
 export BUILDROOT_DIR
 
 build_buildroot;
