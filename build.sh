@@ -36,6 +36,9 @@ build_linux () {
         make defconfig
         cp ../linux_espressoconfig .config
         make -j$(nproc) Image dtbs modules
+        if [ -d rootfs ]; then
+            rm -rf rootfs;
+        fi
         mkdir $TOPDIR/rootfs
         make modules_install INSTALL_MOD_PATH=$TOPDIR/rootfs/
     )
@@ -55,6 +58,7 @@ if [ ! -d ./linux ]; then
     echo "Pulling Linux-4.19.y..."
     (
         git clone git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git -b linux-4.19.y --depth=1 linux
+        cd linux
         git am ../espressopatches/linux/*.patch
     )
 fi
@@ -65,6 +69,7 @@ if [ ! -d ./u-boot ]; then
     echo "Pulling U-Boot..."
     (
         git clone git@github.com:MarvellEmbeddedProcessors/u-boot-marvell.git --depth=1 -b u-boot-2017.03-armada-17.10 u-boot
+        cd u-boot
         git am ../espressopatches/u-boot/*.patch
     )
 fi
@@ -85,32 +90,26 @@ if [ ! -d ./A3700-utils ]; then
     )
 fi
 A3700UTILS_DIR=$(pwd)/A3700-utils
+export BUILDROOT_DIR
 
-
-build_linux;
 build_buildroot;
+build_linux;
 build_uboot;
+build_buildroot;
 
+BUILD_IMAGEDIR=$TOPDIR/images
+if [ ! -d $BUILD_IMAGEDIR ]; then
+    mkdir $BUILD_IMAGEDIR;
+fi
 
-# Install
-
-# Now we can build the final root filesystem. Restore PATH just in case
-# it confuses buildroot
-#PATH="$PREV_PATH"
-
-# Build buildroot again to include all the extra files in rootfs_real_overlay
-info "Building final buildroot..."
-make -C $BUILDROOT
-
-# And copy the output into the images directory
-# Could include some version info here
 (
-	cd $BUILDROOT/output/images
+	cd $BUILDROOT_DIR/output/images
 	# Create a single FIT image from the sources to allow for netbooting
-	cp $BUILDSRC/kernel_fdt.its .
-	mkimage -f kernel_fdt.its linux.ub
-	cp linux.ub $BUILD_IMAGEDIR/$build-linux.ub
+	cp $TOPDIR/espressofit.its .
+    cp $LINUX_DIR/arch/$ARCH/boot/Image .
+    cp $LINUX_DIR/arch/$ARCH/boot/dts/marvell/armada-3720-espressobin.dtb .
+	mkimage -f espressofit.its a3720-linux.ub
+	cp a3720-linux.ub $BUILD_IMAGEDIR/
 )
 
-info "Final images:"
 ls -l $BUILD_IMAGEDIR 1>&2
