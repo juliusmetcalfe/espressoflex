@@ -1,3 +1,10 @@
+A3700-utils
+atf
+buildroot
+linux
+u-boot
+rootfs
+
 # Prerequisites
 *.d
 
