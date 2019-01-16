@@ -1,0 +1,45 @@
+/*
+ * Simple U-boot uImage source file containing a single kernel and FDT blob
+ */
+
+/dts-v1/;
+
+/ {
+	description = "kernel + dtb";
+	#address-cells = <1>;
+
+	images {
+		kernel@1 {
+			description = "Linux kernel";
+			data = /incbin/("Image");
+			type = "kernel";
+			arch = "arm64";
+			os = "linux";
+			compression = "none";
+			load = <0x00080000>;
+			entry = <0x00080000>;
+			hash@1 {
+				algo = "crc32";
+			};
+		};
+		fdt@1 {
+			description = "Flattened Device Tree blob";
+			data = /incbin/("armada-3720-espressobin.dtb");
+			type = "flat_dt";
+			arch = "arm64";
+			compression = "none";
+			hash@1 {
+				algo = "crc32";
+			};
+		};
+	};
+
+	configurations {
+		default = "conf@1";
+		conf@1 {
+			description = "Boot Linux kernel with initramfs and FDT blob";
+			kernel = "kernel@1";
+			fdt = "fdt@1";
+		};
+	};
+};
