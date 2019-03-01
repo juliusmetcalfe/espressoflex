@@ -1,0 +1,4 @@
+/dev/root / auto rw 0 1
+/dev/mmcblk0p1 /boot/ auto rw 0 0
+/dev/mmcblk0p2 /settings/ auto rw 0 0
+

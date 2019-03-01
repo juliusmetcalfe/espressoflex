@@ -1,0 +1,11 @@
+[Unit]
+Description=WPA supplicant
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/wpa_supplicant -c /settings/wpa_supplicant.conf -i wlp0s0
+
+[Install]
+WantedBy=multi-user.target
