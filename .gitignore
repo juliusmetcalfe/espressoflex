@@ -5,7 +5,6 @@ atf
 buildroot
 linux
 u-boot
-rootfs
 
 # Prerequisites
 *.d
