@@ -1,0 +1,7 @@
+add br0
+add all interfaces to br0, including lan1, lan0 and wan
+assign br0 192.168.3.1
+dhcpd server running on 192.168.3.0 subnet
+dns server for dhcp clients should be 192.168.2.1
+iptables forwarding script on 192.168.3.1 -> 192.168.2.100
+wifi address is 192.168.2.100 (static, should probs be dynamic)
