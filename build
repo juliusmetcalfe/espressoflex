@@ -36,10 +36,9 @@ build_linux () {
         make defconfig
         cp ../linux_espressoconfig .config
         make -j$(nproc) Image dtbs modules
-        if [ -d rootfs ]; then
-            rm -rf rootfs;
+        if [ -d rootfs/lib/modules ]; then
+            rm -rf rootfs/lib/modules;
         fi
-        mkdir $TOPDIR/rootfs
         make modules_install INSTALL_MOD_PATH=$TOPDIR/rootfs/
     )
 }
@@ -57,7 +56,7 @@ BUILDROOT_DIR=$(pwd)/buildroot
 if [ ! -d ./linux ]; then
     echo "Pulling Linux-4.19.y..."
     (
-        git clone git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git -b linux-4.19.y --depth=1 linux
+        git clone https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git -b linux-4.19.y --depth=1 linux
         cd linux
         git am ../espressopatches/linux/*.patch
     )
@@ -68,7 +67,7 @@ LINUX_DIR=$(pwd)/linux
 if [ ! -d ./u-boot ]; then
     echo "Pulling U-Boot..."
     (
-        git clone git@github.com:MarvellEmbeddedProcessors/u-boot-marvell.git --depth=1 -b u-boot-2017.03-armada-17.10 u-boot
+        git clone https://github.com/MarvellEmbeddedProcessors/u-boot-marvell.git --depth=1 -b u-boot-2017.03-armada-17.10 u-boot
         cd u-boot
         git am ../espressopatches/u-boot/*.patch
     )
