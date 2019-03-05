@@ -1,5 +1,6 @@
 [Unit]
 Description=WPA supplicant
+Requires=sys-subsystem-net-devices-wlp0s0.device
 After=network.target
 Wants=network.target
 
