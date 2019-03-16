@@ -1,12 +1,13 @@
 [Unit]
 Description=WPA supplicant
 Requires=sys-subsystem-net-devices-wlp0s0.device
-After=network.target
-Wants=network.target
+Wants=network-online.target
+After=network-online.target
+
 
 [Service]
 Type=simple
 ExecStart=/usr/sbin/wpa_supplicant -c /settings/wpa_supplicant.conf -i wlp0s0
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=multi.user.target
