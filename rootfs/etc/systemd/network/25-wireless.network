@@ -1,0 +1,5 @@
+[Match]
+Name=wlp0s0
+
+[Network]
+DHCP=yes
