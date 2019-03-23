@@ -1,7 +1,19 @@
 #!/bin/bash
 # This file is sourced from the top level build script
 
-export CROSS_COMPILE=aarch64-linux-gnu-
+if [ ! -d /opt/toolchains/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu ]; then
+	wget https://releases.linaro.org/components/toolchain/binaries/latest-6/aarch64-linux-gnu/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu.tar.xz
+	if [ ! -d /opt/toolchains ]; then
+		sudo mkdir /opt/toolchains -p
+	fi
+	DLDIR=$(pwd)
+	cd /opt/toolchains/
+	sudo tar -xf $DLDIR/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu.tar.xz
+	cd $DLDIR
+	rm gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu.tar.xz
+fi
+
+export CROSS_COMPILE=/opt/toolchains/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
 export ARCH=arm64
 
 export TOPDIR=$(pwd)
@@ -31,7 +43,6 @@ build_uboot () {
 build_linux () {
     (
         export ARCH=arm64
-        export CROSS_COMPILE=aarch64-linux-gnu-
         cd $LINUX_DIR
         make defconfig
         cp ../linux_espressoconfig .config
