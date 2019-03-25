@@ -32,6 +32,17 @@
 				algo = "crc32";
 			};
 		};
+		ramdisk@1 {
+			description = "Ramdisk for espressoflex image";
+			data = /incbin/("rootfs.cpio.gz");
+			type = "ramdisk";
+			arch = "arm64";
+			os = "linux";
+			compression = "gzip";
+			hash@1 {
+				algo = "crc32";
+			};
+		};
 	};
 
 	configurations {
@@ -40,6 +51,7 @@
 			description = "Boot Linux kernel with initramfs and FDT blob";
 			kernel = "kernel@1";
 			fdt = "fdt@1";
+			ramdisk = "ramdisk@1";
 		};
 	};
 };

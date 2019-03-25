@@ -111,7 +111,6 @@ LINUXFIRMWARE_DIR=$(pwd)/linux-firmware
 
 export BUILDROOT_DIR
 
-build_buildroot;
 build_linux;
 build_uboot;
 build_buildroot;
