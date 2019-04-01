@@ -1,4 +1,4 @@
 /dev/root / auto rw 0 1
 /dev/mmcblk0p1 /boot/ auto rw 0 0
 /dev/mmcblk0p2 /settings/ auto rw 0 0
-
+/dev/disk/by-id/ata-HGST_HDN726040ALE614_N8H1S0HZ-part1 /data/sata auto rw 0 0
